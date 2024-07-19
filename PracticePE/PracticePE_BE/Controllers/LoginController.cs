@@ -29,6 +29,12 @@ namespace PracticePE_BE.Controllers
 		public IActionResult Login([FromBody] UserLogin userLogin)
 		{
 			var user = Authenticate(userLogin);
+
+			if (!(user.Role == 2 || user.Role == 3))
+			{
+				return StatusCode(401, "Other roles do not have any permissions");
+			}
+
 			if (user != null)
 			{
 				var token = GenerateToken(user);
@@ -41,8 +47,7 @@ namespace PracticePE_BE.Controllers
 		{
 			var currentUser = _unitOfWork.AccountRepo.Get().FirstOrDefault(u => u.UserEmail == userLogin.UserEmail 
 					&& u.UserPassword == userLogin.UserPassword);
-			//var currentUser = UserConstants.Users.FirstOrDefault(u => u.UserName.ToLower() == userLogin.UserName.ToLower()
-			//		&& u.Password == userLogin.Password);
+
 			if (currentUser != null)
 			{
 				return currentUser;

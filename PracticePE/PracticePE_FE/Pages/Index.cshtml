@@ -6,7 +6,25 @@
 
 <h2>Watercolors Paintings</h2>
 
-<!-- Create Painting Form -->
+<!-- Search Form -->
+<hr> 
+<h5>Search</h5>
+
+<form id="searchForm">
+    <label for="searchAuthor">Author:</label>
+    <input type="text" id="searchAuthor" name="searchAuthor">
+
+    <label for="searchYear">Publish Year:</label>
+    <input type="number" id="searchYear" name="searchYear" min="1000">
+
+    <button type="button" onclick="fetchPaintings()">Search</button>
+</form>
+
+<hr>
+
+<!-- Create Form -->
+<h5>Create</h5>
+
 <form id="createPaintingForm">
     <label for="paintingId">Painting ID:</label>
     <input type="text" id="paintingId" required>
@@ -26,20 +44,20 @@
     <label for="publishYear">Publish Year:</label>
     <input type="number" id="publishYear" required min="1000">
 
-    <label for="style">Style:</label>
-    <select id="style" required>
-        <option value="">Select Style</option>
-        <!-- Populate options dynamically using JavaScript -->
-    </select>
+    <label for="styleId">Style ID:</label>
+    <input type="text" id="styleId" required>
 
     <button type="button" onclick="createPainting()">Create Painting</button>
 </form>
 
 <hr>
 
-<!-- Update Painting Form -->
+<!-- Update Form -->
+<h5>Update</h5>
+
 <form id="updatePaintingForm">
-    <input type="hidden" id="updatePaintingId">
+    <label for="updatePaintingId">Painting ID:</label>
+    <input type="text" id="updatePaintingId">
 
     <label for="updatePaintingName">Painting Name:</label>
     <input type="text" id="updatePaintingName" required>
@@ -56,27 +74,26 @@
     <label for="updatePublishYear">Publish Year:</label>
     <input type="number" id="updatePublishYear" required min="1000">
 
-    <label for="updateStyle">Style:</label>
-    <select id="updateStyle" required>
-        <option value="">Select Style</option>
-        <!-- Populate options dynamically using JavaScript -->
-    </select>
+    <label for="updateStyleId">Style ID:</label>
+    <input type="text" id="updateStyleId" required>
 
     <button type="button" onclick="updatePainting()">Update Painting</button>
 </form>
 
 <hr>
 
-<!-- Paintings Table -->
+<!-- Table -->
 <table id="paintingsTable">
     <thead>
         <tr>
+            <th>Painting Id</th>
             <th>Painting Name</th>
             <th>Painting Description</th>
             <th>Painting Author</th>
             <th>Price</th>
             <th>Publish Year</th>
             <th>Created Date</th>
+            <th>Style</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -84,37 +101,12 @@
 </table>
 
 <script>
-    // Fetch styles on page load
+    // Fetch data on page load
     $(document).ready(function () {
-        fetchStyles();
         fetchPaintings();
     });
 
-    // Function to fetch styles and populate select options
-    function fetchStyles() {
-        var token = Cookies.get('jwtToken');
-
-        $.ajax({
-            url: 'https://localhost:5000/api/Styles',
-            type: 'GET',
-            beforeSend: function (request) {
-                request.setRequestHeader("Authorization", "Bearer " + token);
-            },
-            success: function (data) {
-                var options = '';
-                data.forEach(function (style) {
-                    options += '<option value="' + style.styleId + '">' + style.styleName + '</option>';
-                });
-                $('#style').html(options);
-                $('#updateStyle').html(options); // Populate update form select
-            },
-            error: function () {
-                alert('Failed to fetch styles!');
-            }
-        });
-    }
-
-    // Function to create a new painting
+    // Function to create
     function createPainting() {
         var token = Cookies.get('jwtToken');
         var formData = {
@@ -124,7 +116,7 @@
             paintingAuthor: $('#paintingAuthor').val(),
             price: parseFloat($('#price').val()),
             publishYear: parseInt($('#publishYear').val()),
-            styleId: $('#style').val()
+            styleId: $('#styleId').val()
         };
 
         $.ajax({
@@ -145,7 +137,7 @@
         });
     }
 
-    // Function to update a painting
+    // Function to update
     function updatePainting() {
         var token = Cookies.get('jwtToken');
         var formData = {
@@ -155,7 +147,7 @@
             paintingAuthor: $('#updatePaintingAuthor').val(),
             price: parseFloat($('#updatePrice').val()),
             publishYear: parseInt($('#updatePublishYear').val()),
-            styleId: $('#updateStyle').val()
+            styleId: $('#updateStyleId').val()
         };
 
         $.ajax({
@@ -176,13 +168,19 @@
         });
     }
 
-    // Function to fetch and display paintings in the table
+    // Function to fetch and display data in the table
     function fetchPaintings() {
         var token = Cookies.get('jwtToken');
+        var searchAuthor = $('#searchAuthor').val();
+        var searchYear = $('#searchYear').val();
 
         $.ajax({
             url: 'https://localhost:5000/api/WatercolorsPainting',
             type: 'GET',
+            data: {
+                PaintingAuthor: searchAuthor,
+                PublishYear: searchYear
+            },
             beforeSend: function (request) {
                 request.setRequestHeader("Authorization", "Bearer " + token);
             },
@@ -190,12 +188,14 @@
                 var rows = '';
                 data.forEach(function (painting) {
                     rows += '<tr>';
+                    rows += '<td>' + painting.paintingId + '</td>';
                     rows += '<td>' + painting.paintingName + '</td>';
                     rows += '<td>' + painting.paintingDescription + '</td>';
                     rows += '<td>' + painting.paintingAuthor + '</td>';
                     rows += '<td>' + painting.price + '</td>';
                     rows += '<td>' + painting.publishYear + '</td>';
                     rows += '<td>' + painting.createdDate + '</td>';
+                    rows += '<td>' + painting.style.styleName + '</td>';
                     rows += '<td><button onclick="deletePainting(\'' + painting.paintingId + '\')">Delete</button></td>';
                     rows += '</tr>';
                 });
@@ -207,23 +207,24 @@
         });
     }
 
-    // Function to delete a painting
+    // Function to delete
     function deletePainting(id) {
-        var token = Cookies.get('jwtToken');
+        if (confirm("Are you sure you want to delete this item?")) {
+            var token = Cookies.get('jwtToken');
 
-        $.ajax({
-            url: 'https://localhost:5000/api/WatercolorsPainting/' + id,
-            type: 'DELETE',
-            beforeSend: function (request) {
-                request.setRequestHeader("Authorization", "Bearer " + token);
-            },
-            success: function () {
-                fetchPaintings(); // Refresh table after successful deletion
-            },
-            error: function () {
-                alert('Failed to delete painting!');
-            }
-        });
+            $.ajax({
+                url: 'https://localhost:5000/api/WatercolorsPainting/' + id,
+                type: 'DELETE',
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function () {
+                    fetchPaintings(); // Refresh table after successful deletion
+                },
+                error: function () {
+                    alert('Failed to delete painting!');
+                }
+            });
+        }
     }
 </script>
-
