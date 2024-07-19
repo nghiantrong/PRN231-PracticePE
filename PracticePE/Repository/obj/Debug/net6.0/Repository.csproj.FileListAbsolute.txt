@@ -1,0 +1,14 @@
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\bin\Debug\net6.0\Repository.deps.json
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\bin\Debug\net6.0\Repository.runtimeconfig.json
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\bin\Debug\net6.0\Repository.dll
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\bin\Debug\net6.0\Repository.pdb
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.csproj.AssemblyReference.cache
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.AssemblyInfoInputs.cache
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.AssemblyInfo.cs
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.csproj.CoreCompileInputs.cache
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.dll
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\refint\Repository.dll
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.pdb
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\Repository.genruntimeconfig.cache
+D:\FPT_UNIVERSITY\HK8\PRN231\PracticePE\PracticePE\Repository\obj\Debug\net6.0\ref\Repository.dll

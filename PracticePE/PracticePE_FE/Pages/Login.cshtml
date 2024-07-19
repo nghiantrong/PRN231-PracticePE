@@ -1,0 +1,40 @@
+﻿@page "/"
+@model PracticePE_FE.Pages.LoginModel
+@{
+}
+
+<form id="loginForm">
+    <div>
+        <label>Email:</label>
+        <input type="email" id="email" name="email" required />
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" id="password" name="password" required />
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#loginForm').submit(function (event) {
+            event.preventDefault();
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            $.ajax({
+                url: 'https://localhost:5000/api/Login',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ userEmail: email, userPassword: password }),
+                success: function (response) {
+                    Cookies.set('jwtToken', response);
+                    window.location.href = '/Index'; // Redirect to another page after successful login
+                },
+                error: function () {
+                    alert('Login failed!');
+                }
+            });
+        });
+    });
+</script>

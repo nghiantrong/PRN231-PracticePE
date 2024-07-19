@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PracticePE_BE.props" />
+</Project>
